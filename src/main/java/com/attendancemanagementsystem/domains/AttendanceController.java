@@ -32,6 +32,6 @@ public class AttendanceController {
     public ResponseEntity<Object> viewAttendance(@PathVariable(name = "studentId") long studentId) {
         Optional<List<AttendanceDTO>> attendanceResponseDTO = Optional.ofNullable(attendanceServices.viewAttendance(studentId));
         logger.info(attendanceResponseDTO);
-        return attendanceResponseDTO.map(attendance -> ResponseHandler.generateResponse("Viewing person ", HttpStatus.OK, attendance.toString())).orElseGet(() -> ResponseHandler.generateResponse("Unsuccessful", HttpStatus.BAD_REQUEST, "Check request " + studentId));
+        return attendanceResponseDTO.filter(attendance -> attendance.size() > 0).map(attendance -> ResponseHandler.generateResponse("Viewing person ", HttpStatus.OK, attendance.toString())).orElseGet(() -> ResponseHandler.generateResponse("Unsuccessful", HttpStatus.BAD_REQUEST, "Check request " + studentId));
     }
 }
