@@ -1,11 +1,18 @@
 package com.attendancemanagementsystem.entities;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"attendance_date_time", "person_id"})
+)
 public class AttendanceEntity{
 
     @Id
@@ -13,14 +20,16 @@ public class AttendanceEntity{
     private long attendanceId;
 
     @CreatedDate
-    private String attendanceDateTime;
+    @Temporal(value=TemporalType.DATE)
+    @Column(name="attendance_date_time")
+    private LocalDate attendanceDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "person_id", nullable = false)
     private PersonEntity person;
 
 
-        public AttendanceEntity(long attendanceId, String attendanceDateTime, PersonEntity person) {
+        public AttendanceEntity(long attendanceId, LocalDate attendanceDateTime, PersonEntity person) {
             this.attendanceId = attendanceId;
             this.attendanceDateTime = attendanceDateTime;
             this.person = person;
@@ -33,7 +42,7 @@ public class AttendanceEntity{
             return attendanceId;
         }
 
-        public String getAttendanceDateTime() {
+        public LocalDate getAttendanceDateTime() {
             return attendanceDateTime;
         }
 
@@ -45,7 +54,7 @@ public class AttendanceEntity{
             this.attendanceId = attendanceId;
         }
 
-        public void setAttendanceDateTime(String attendanceDateTime) {
+        public void setAttendanceDateTime(LocalDate attendanceDateTime) {
             this.attendanceDateTime = attendanceDateTime;
         }
 

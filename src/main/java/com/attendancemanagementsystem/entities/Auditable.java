@@ -20,7 +20,7 @@ public abstract class Auditable<U> {
     protected Date creationDate;
     @Temporal(TIMESTAMP)
     @LastModifiedDate
-    protected Date lastModifiedDate;
+    Date lastModifiedDate;
 // Getters and Setters
 
     public Auditable(Date creationDate, Date lastModifiedDate) {
