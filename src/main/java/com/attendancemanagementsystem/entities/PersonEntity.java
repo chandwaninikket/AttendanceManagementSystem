@@ -4,8 +4,10 @@ package com.attendancemanagementsystem.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Set;
+
 @Entity
-public class PersonEntity extends Auditable<String> {
+public class PersonEntity extends Auditable<String>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +20,28 @@ public class PersonEntity extends Auditable<String> {
     @NotNull
     private String jobType;
 
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<AttendanceEntity> attendances;
+
     public PersonEntity() {
 
     }
 
-    public PersonEntity(long personId, String personName, String personAge, String jobType) {
-        this.personAge = personAge;
-        this.jobType = jobType;
+    public PersonEntity(long personId, String personName, String personAge, @NotNull String jobType, Set<AttendanceEntity> attendances) {
         this.personId = personId;
         this.personName = personName;
+        this.personAge = personAge;
+        this.jobType = jobType;
+        this.attendances = attendances;
+    }
+
+    public Set<AttendanceEntity> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Set<AttendanceEntity> attendances) {
+        this.attendances = attendances;
     }
 
     @Override

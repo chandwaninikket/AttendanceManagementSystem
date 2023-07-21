@@ -2,8 +2,10 @@ package com.attendancemanagementsystem.entities;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PostUpdate;
 import jakarta.persistence.Temporal;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
@@ -17,6 +19,7 @@ public abstract class Auditable<U> {
     @Temporal(TIMESTAMP)
     protected Date creationDate;
     @Temporal(TIMESTAMP)
+    @LastModifiedDate
     protected Date lastModifiedDate;
 // Getters and Setters
 
